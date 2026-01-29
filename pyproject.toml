@@ -1,0 +1,100 @@
+[project]
+name = "optimal-design-for-linear-model"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "coverage>=7.12.0",
+    "flake8>=7.3.0",
+    "mypy>=1.19.0",
+    "pydoclint>=0.8.3",
+    "pylint>=4.0.3",
+    "pytest>=9.0.1",
+    "ruff>=0.14.7",
+    "whitespace-format>=0.0.15",
+]
+
+[tool.ruff]
+line-length = 100
+indent-width = 4
+
+[tool.ruff.format]
+line-ending = "lf"
+indent-style = "space"
+quote-style = "double"
+
+[tool.ruff.lint]
+preview = true
+explicit-preview-rules = false
+select = ["ALL"]
+ignore = [
+    "C901",
+    "COM812",
+    "CPY001",
+    "D301",
+    "E501",
+    "EM101",
+    "EM102",
+    "EXE002",
+    "FA100",
+    "FBT001",
+    "FBT003",
+    "FURB103",
+    "PLR0904",
+    "PLR0912",
+    "PLR0915",
+    "PLR2004",
+    "PLR5501",
+    "PT009",
+    "PTH123",
+    "Q003",
+    "T201",
+    "TRY003",
+    "UP006",
+    "UP015",
+    "UP024",
+    "UP035",
+    "UP045",
+]
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.isort]
+force-single-line = true
+force-sort-within-sections = false
+from-first = false
+order-by-type = true
+
+[tool.ruff.lint.pylint]
+max-returns = 30
+max-locals = 20
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.pydoclint]
+# Skip docstrings which fit on a single line.
+ignore-one-line-docstrings = true
+
+[tool.pydoclint]
+check-arg-defaults = true
+exclude = '\.git|\.venv|\.tox|tests/test_data|build'
+require-return-section-when-returning-nothing = true
+allow-init-docstring = true
+arg-type-hints-in-docstring = false
+style = "google"
+disable = ["DOC301"]
+
+[tool.mypy]
+python_version = "3.14"
+warn_return_any = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+strict_optional = true
+no_implicit_optional = true
+check_untyped_defs = true
