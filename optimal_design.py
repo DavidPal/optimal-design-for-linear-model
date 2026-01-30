@@ -1,20 +1,25 @@
 """Script that computes the optimal design for a linear model."""
 
+import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib.patches import Circle
 
 
-def random_points_in_unit_ball(num_points: int, dimensions: int) -> np.ndarray:
-    """Generates uniformly distributed random points within in a unit ball.
+def random_points_in_unit_ball(
+    num_points: int, dimensions: int, random_seed: int = 1337
+) -> np.ndarray:
+    """Generates uniformly distributed random points inside a unit ball.
 
     Args:
         num_points: The number of points to generate.
-        dimensions: The number of dimensions to generate.
+        dimensions: The dimension of the unit ball.
+        random_seed: The random seed to use for generating the points.
 
     Returns:
         A matrix with 'num_points' rows and 'dimensions' columns.
-        Each row is a random point in the unit ball.
+        Each row is a random point in the unit ball in 'dimensions' dimensions.
     """
-    rng = np.random.default_rng(1337)
+    rng = np.random.default_rng(random_seed)
     points = rng.normal(0, 1, (num_points, dimensions))
     norms = np.linalg.norm(points, axis=1, keepdims=True)
     points_on_sphere = points / norms
@@ -24,7 +29,10 @@ def random_points_in_unit_ball(num_points: int, dimensions: int) -> np.ndarray:
     return points_in_ball
 
 
-def covariance_matrix(points: np.ndarray, distribution: np.ndarray) -> np.ndarray:
+def covariance_matrix(
+    points: np.ndarray[tuple[int, int], np.dtype[np.float64]],
+    distribution: np.ndarray[tuple[int], np.dtype[np.float64]],
+) -> np.ndarray:
     """Computes the covariance matrix of a set of points."""
     if len(points.shape) != 2:
         raise ValueError("points should be a matrix")
@@ -39,7 +47,10 @@ def covariance_matrix(points: np.ndarray, distribution: np.ndarray) -> np.ndarra
     return covariance
 
 
-def compute_optimal_design(points: np.ndarray, num_iterations: int = 10) -> np.ndarray:
+def compute_optimal_design(
+    points: np.ndarray[tuple[int, int], np.dtype[np.float64]],
+    num_iterations: int = 10,
+) -> np.ndarray:
     """Computes the optimal design for estimating a linear model.
 
     The input to the function is a list of n points in a d-dimensional space.
@@ -56,7 +67,7 @@ def compute_optimal_design(points: np.ndarray, num_iterations: int = 10) -> np.n
         The entries of the vector represent the probability distribution over
 
     Raises:
-        ValueError: if points is not a matrix, or if num_iterations is negative.
+        ValueError: if 'points' is not a matrix, or if 'num_iterations' is negative.
     """
     if len(points.shape) != 2:
         raise ValueError("points should be a matrix")
@@ -94,14 +105,38 @@ def compute_optimal_design(points: np.ndarray, num_iterations: int = 10) -> np.n
     return distribution
 
 
+def plot(
+    points: np.ndarray[tuple[int, int], np.dtype[np.float64]],
+    distribution: np.ndarray[tuple[int], np.dtype[np.float64]],
+) -> None:
+    """Plots the optimal design for a linear model."""
+    _fig, ax = plt.subplots(figsize=(6, 6))
+
+    ax.scatter(points[:, 0], points[:, 1], sizes=distribution * 5000, color="red")
+    ax.scatter(points[:, 0], points[:, 1], marker="x", s=5, color="blue")
+
+    ax.set_xlim(-1.1, 1.1)
+    ax.set_ylim(-1.1, 1.1)
+    ax.grid(True)
+
+    for radius in [1.0, 0.6666, 0.3333]:
+        circle = Circle((0.0, 0.0), radius, color="gray", fill=False, linewidth=1)
+        ax.add_patch(circle)
+
+    # Display the plot
+    plt.gcf().set_dpi(1200)
+    plt.show()
+
+
 def main() -> None:
     """Entry point for the script."""
-    points = random_points_in_unit_ball(num_points=20, dimensions=2)
+    points = random_points_in_unit_ball(num_points=50, dimensions=2)
     np.set_printoptions(precision=9, floatmode="fixed", suppress=True)
     print(f"points: {points}")
 
-    distribution = compute_optimal_design(points, num_iterations=1000)
+    distribution = compute_optimal_design(points, num_iterations=100)
     print(distribution)
+    plot(points, distribution)
 
 
 if __name__ == "__main__":
