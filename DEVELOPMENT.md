@@ -28,9 +28,9 @@ see [direnv documentation](https://direnv.net/docs/hook.html).
 
 # One time setup
 
-Change your current working directory to root of the project
+Change your current working directory to root of the project using the command
 ```shell
-cd optimal-design-for-linear-model
+cd optimal-design-for-linear-model/
 ```
 Run the command
 ```shell

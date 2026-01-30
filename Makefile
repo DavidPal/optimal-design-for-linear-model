@@ -1,4 +1,4 @@
-PYTHON_VERSION = "3.14.0"
+PYTHON_VERSION = "3.13.0"
 SOURCE_FILES = *.py
 
 NON_TEXT_FILES_REGEX = "\.pyc$$|\.git/|\.idea/|^\.venv/|^\.coverage$$|^\.mypy_cache/|^.pytest_cache/|^.ruff_cache/"
