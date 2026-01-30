@@ -4,17 +4,19 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
-dependencies = []
+dependencies = [
+    "numpy>=2.4.1",
+]
 
 [dependency-groups]
 dev = [
-    "coverage>=7.12.0",
+    "coverage>=7.13.2",
     "flake8>=7.3.0",
-    "mypy>=1.19.0",
+    "mypy>=1.19.1",
     "pydoclint>=0.8.3",
-    "pylint>=4.0.3",
-    "pytest>=9.0.1",
-    "ruff>=0.14.7",
+    "pylint>=4.0.4",
+    "pytest>=9.0.2",
+    "ruff>=0.14.14",
     "whitespace-format>=0.0.15",
 ]
 
@@ -86,6 +88,7 @@ exclude = '\.git|\.venv|\.tox|tests/test_data|build'
 require-return-section-when-returning-nothing = true
 allow-init-docstring = true
 arg-type-hints-in-docstring = false
+check-return-types = false
 style = "google"
 disable = ["DOC301"]
 
